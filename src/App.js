@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { StyledEngineProvider } from '@mui/material/styles';
+import Login from './pages/login';
+import Home from './pages/home';
+import CreateUser from './pages/createUser';
+import Product from './pages/product';
+import Dashboard from './pages/dashboard'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledEngineProvider injectFirst>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/createuser" element={<CreateUser />} />
+          <Route path="/product" element={<Product />} />
+        </Routes>
+      </Router>
+    </StyledEngineProvider>
   );
 }
 

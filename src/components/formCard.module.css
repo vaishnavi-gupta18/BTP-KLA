@@ -1,0 +1,26 @@
+.formcard {
+  width: 100%;
+}
+
+.formcard :global .MuiPaper-root {
+  border-radius: 8px;
+  translate: 0px -25px;
+  padding: 24px;
+}
+
+.formcard :global h4 {
+  margin: 0;
+  font-weight: 500;
+  padding-bottom: 16px;
+  font-size: 19px;
+}
+
+.formcard :global .MuiFormLabel-root {
+  font-size: 16px;
+  line-height: 175%;
+}
+
+.formcard :global .MuiInputBase-input {
+  height: 20px;
+  padding: 8px 16px;
+}

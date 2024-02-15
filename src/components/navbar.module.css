@@ -1,0 +1,47 @@
+.container {
+  height: 76px;
+  display: flex;
+  background: #FFF;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+}
+.actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 32px;
+}
+
+.actions :global .MuiTextField-root {
+  border: none;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.userName {
+  color: var(--232D42-Text-Color-1, #232D42);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%;
+}
+
+.designation {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+}
