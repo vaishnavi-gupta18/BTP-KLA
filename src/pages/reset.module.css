@@ -5,7 +5,22 @@
 
 h1 {
   font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  text-align: center;
 }
+
+p {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 32px;
+  margin-top: 0;
+}
+
 .left {
   height: 100vh;
   display: flex;
@@ -31,49 +46,28 @@ form {
   gap: 16px;
 }
 
-.options {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 24px;
-}
-
-.remember {
-  color: var(--8A92A6-Text-Color-2, #8A92A6);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-}
-
-.forgot {
-  color: var(--3A57E8-Primary, #3A57E8);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 175%; 
-  display: flex;
-  align-items: center;
-}
-
 .submit {
   width: 100%;
   display: flex;
   justify-content: center;
+  text-transform: capitalize;
 }
 
 .container :global .MuiFormLabel-root {
   padding-bottom: 8px;
 }
 
+.container :global .MuiButtonBase-root {
+  text-transform: none;
+}
 
+.container :global .MuiInputBase-input {
+  height: 24px;
+  padding: 8px 16px;  
+}
 
 .container :global .MuiFormControl-root {
   padding-bottom: 16px;
-}
-
-.options :global .MuiButtonBase-root {
-  text-transform: none;
-  font-size: 16px;
 }
 
 .submit :global .MuiButton-root {

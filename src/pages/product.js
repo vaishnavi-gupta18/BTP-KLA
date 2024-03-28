@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from '../components/navbar';
-import SideDrawer from '../components/drawer';
+import Sidebar from '../components/sidebar';
 import Header from '../components/header';
+
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import FormControl from '@mui/material/FormControl';
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
@@ -23,11 +25,15 @@ const roles = ["Worker", "Supervisor", "Admin"]
 const Product = () => {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
+  const [file, setFile] = useState("Click to select files")
+
+  const handleFileUpload = (event) => {
+    const files = event.target.files;
+    setFile(files[0].name);
+  };
 
   return (
-    <div className={styles.container}>
-      <NavBar />
-      <SideDrawer />
+    <>
       <Header
         heading="Product Inspection Report"
         subheading="Data entry for product parameters after final inspection"
@@ -105,9 +111,10 @@ const Product = () => {
                         type="file"
                         id="productPhoto"
                         className={styles.fileInput}
+                        onChange={handleFileUpload}
                       />
                       <label htmlFor='productPhoto'>
-                        <div className={styles.fileSubheading}>Click to select files</div>
+                        <div className={styles.fileSubheading}>{file}</div>
                       </label>
                     </Stack>
                   </Stack>
@@ -127,7 +134,7 @@ const Product = () => {
                   <TaskAltRoundedIcon sx={{ fontSize: 86, color: "#0048B2" }} />
                   <h5>You can access the report in your dashboard</h5>
                   <Button variant="contained" onClick={() => setSubmitted(true)}>Download Report</Button>
-                  <Button variant="text" onClick={() => { setSubmitted(false); navigate("/product") }}>Back to Home</Button>
+                  <Button variant="text" onClick={() => { setSubmitted(false); navigate("/") }}>Back to Home</Button>
                 </div>
               </FormCard>
             </>
@@ -135,7 +142,7 @@ const Product = () => {
 
         </div>
       </div >
-    </div >
+    </>
   );
 };
 

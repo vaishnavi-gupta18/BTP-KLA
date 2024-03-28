@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
 import styles from './login.module.css';
 import logo from '../assets/logo.svg';
@@ -20,11 +21,29 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/product")
+    const data = {
+      "employee_id": employeeId,
+      "password": password
+    }
+    fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      // headers: {
+      //   Authorization: `Bearer ${idToken}`,
+      // },
+      body: JSON.stringify(data),
+    }).then((response) => {
+      if (!response.ok) {
+        throw response;
+      }
+      navigate("/")
+      return response.json();
+    }).catch((err) => {
+      console.log(err);
+    });
   }
   return (
     <div className={styles.container}>
-      <div className={styles.left}>
+      <Box sx={{ width: { xs: "100%", sm: "50%" } }} className={styles.left}>
         <div className={styles.form}>
           <img src={logo} width="200px" height="56px" />
           <h1>Sign In</h1>
@@ -70,9 +89,9 @@ const Login = () => {
             </div>
           </form>
         </div>
-      </div>
-      <div className={styles.right}>
-      </div>
+      </Box>
+      <Box sx={{ width: { sm: "50%" } }} className={styles.right}>
+      </Box>
     </div>
   );
 };

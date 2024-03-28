@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from '../components/navbar';
-import SideDrawer from '../components/drawer';
 import Header from '../components/header';
+
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
@@ -26,11 +26,73 @@ const roles = ["Worker", "Supervisor", "Admin"]
 const CreateUser = () => {
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
+  const [data, setData] = useState({
+    name: '',
+    dob: '',
+    designation: '',
+    department: '',
+    address: '',
+    phone: '',
+    email: '',
+    role: ''
+  })
+  const [details, setDetails] = useState(null)
+  const [complete, setComplete] = useState(false)
+
+  // const [fullname, setFullname] = useState('');
+  // const [doj, setDoj] = useState('');
+  // const [designation, setDesignation] = useState('');
+  // const [department, setDepartment] = useState('');
+  // const [address, setAddress] = useState('');
+  // const [phone, setPhone] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [role, setRole] = useState('');
+
+  const handleChange = (event) => {
+    let value = event.target.value;
+    let name = event.target.name;
+    if (name == "dob") {
+      value = value + "T15:04:05Z"
+    }
+    setData((preval) => {
+      return {
+        ...preval,
+        [name]: value,
+        "role": "ADMIN"
+      }
+    })
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch("http://localhost:8080/api/admin/employee/add", {
+        method: "POST",
+        // headers: {
+        //   Authorization: `Bearer ${idToken}`,
+        // },
+        body: JSON.stringify(data),
+      })
+
+      const res = await response.json();
+      if (response.status == 201) {
+        setDetails(res);
+        setSubmitted(true)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+
+
+  }
 
   return (
-    <div className={styles.container}>
-      <NavBar />
-      <SideDrawer />
+    <>
       <Header
         heading="Create New Member"
         subheading="Enter the required information to create a new user, assign roles etc."
@@ -43,7 +105,9 @@ const CreateUser = () => {
                 <div className={styles.field}>
                   <InputLabel required>Full Name</InputLabel>
                   <TextField
+                    name="name"
                     variant="outlined"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -51,24 +115,32 @@ const CreateUser = () => {
                   <TextField
                     type="date"
                     variant="outlined"
+                    name="dob"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
                   <InputLabel required>Designation</InputLabel>
                   <TextField
                     variant="outlined"
+                    name="designation"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
                   <InputLabel>Department</InputLabel>
                   <TextField
                     variant="outlined"
+                    name="department"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
                   <InputLabel required>Residential Address</InputLabel>
                   <TextField
                     variant="outlined"
+                    name="address"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
@@ -77,6 +149,8 @@ const CreateUser = () => {
                   <InputLabel required>Mobile Number</InputLabel>
                   <TextField
                     variant="outlined"
+                    name="phone"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -84,6 +158,8 @@ const CreateUser = () => {
                   <TextField
                     type="email"
                     variant="outlined"
+                    name="email"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
@@ -147,7 +223,7 @@ const CreateUser = () => {
               </FormCard>
               <Stack direction="row" spacing={2}>
                 <Button variant="text">Save as draft</Button>
-                <Button variant="contained" onClick={() => { setSubmitted(true) }}>Continue</Button>
+                <Button variant="contained" onClick={handleSubmit}>Continue</Button>
               </Stack>
               <br />
             </>
@@ -159,10 +235,11 @@ const CreateUser = () => {
                   <TaskAltRoundedIcon sx={{ fontSize: 86, color: "#0048B2" }} />
                   <div>
                     <div>
-                      <span className={styles.blue}>Employee ID :</span><span> 121234567</span>
+                      {console.log(details)}
+                      <span className={styles.blue}>Employee ID :</span><span> {details.employee_id} </span>
                     </div>
                     <div>
-                      <span className={styles.blue}>Password : </span><span> 1njvf567</span>
+                      <span className={styles.blue}>Password : </span><span> {details.temporary_password} </span>
                     </div>
                   </div>
                   <Button variant="contained" onClick={() => { setSubmitted(false); navigate("/product") }}>Back to Home</Button>
@@ -173,7 +250,7 @@ const CreateUser = () => {
 
         </div>
       </div >
-    </div >
+    </>
   );
 };
 

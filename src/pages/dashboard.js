@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from '../components/navbar';
-import SideDrawer from '../components/drawer';
 import Header from '../components/header';
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
@@ -26,6 +25,24 @@ const pendingForms = [
   },
   {
     "title": "Peas Inspection",
+    "status": "pending",
+    "filledBy": "Nikita",
+    "date": "14/02/2024"
+  },
+  {
+    "title": "Quality Report",
+    "status": "pending",
+    "filledBy": "Kritika",
+    "date": "14/02/2024"
+  },
+  {
+    "title": "Pumpkin Inspection",
+    "status": "pending",
+    "filledBy": "Shreya Bhagat",
+    "date": "14/02/2024"
+  },
+  {
+    "title": "Beans Inspection",
     "status": "pending",
     "filledBy": "Nikita",
     "date": "14/02/2024"
@@ -93,6 +110,24 @@ const approvedForms = [
     "approvedBy": "Kritika",
     "date": "14/02/2024"
   },
+  {
+    "title": "Pumpkin Inspection",
+    "status": "approved",
+    "approvedBy": "Shreya Bhagat",
+    "date": "14/02/2024"
+  },
+  {
+    "title": "Beans Inspection",
+    "status": "approved",
+    "approvedBy": "Nikita",
+    "date": "14/02/2024"
+  },
+  {
+    "title": "Quality Report",
+    "status": "approved",
+    "approvedBy": "Kritika",
+    "date": "14/02/2024"
+  },
 ]
 const users = ["Worker1", "Manager1", "Worker2", "Worker3", "Worker4", "Manager2"]
 const roles = ["Worker", "Supervisor", "Admin"]
@@ -102,9 +137,7 @@ const Dashboard = () => {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className={styles.container}>
-      <NavBar />
-      <SideDrawer />
+    <>
       <Header
         heading="Vaishnavi Gupta"
         subheading="Marketing Administrator"
@@ -157,7 +190,7 @@ const Dashboard = () => {
           </FormCard>
         </div>
       </div >
-    </div >
+    </>
   );
 };
 
