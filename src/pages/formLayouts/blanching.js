@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from '../components/header';
+import Header from '../../components/header';
 
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -16,8 +16,8 @@ import TableRow from '@mui/material/TableRow';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 import styles from './blanching.module.css'
-import FormCard from '../components/formCard';
-import ReportCard from "../components/reportCard";
+import FormCard from '../../components/formCard';
+import ReportCard from "../../components/reportCard";
 
 const data = [
   {

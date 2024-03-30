@@ -1,0 +1,96 @@
+.container {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background: var(--e9ecef-Bg-2, #E9ECEF);
+}
+
+.main {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+}
+
+.main :global .MuiTypography-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+.main :global .MuiRadio-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+.main :global .MuiRadio-root.Mui-checked {
+  color : #1976d2
+}
+.main :global .MuiFormLabel-asterisk {
+  color: #C03221;
+  font-weight: 700;
+}
+.main :global .MuiOutlinedInput-notchedOutline {
+  border-color: #EEE;
+  border-width: 1px;
+}
+.main :global .MuiSvgIcon-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);;
+}
+
+.formgroup {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0px;
+  gap: 8px;
+  width: 100%;
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+
+.field :global .MuiFormLabel-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+
+
+.container :global .MuiFormHelperText-root {
+  font-size: 16px;
+  color: #8A92A6;
+  text-align: center;
+}
+
+.main :global .MuiTableCell-root {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: center;
+  border: 0;
+}
+
+.main :global .MuiTableCell-head {
+  color: #232D42;
+  font-weight: 600;
+}
+
+.main :global .MuiTableCell-root:nth-child(even){
+  background: rgba(138, 146, 166, 0.10);
+}
+
+.success {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.success h5 {
+  color: var(--232D42-Text-Color-1, #232D42);
+  font-weight: 400;
+}
+
+.success :global .MuiButtonBase-root {
+  text-transform: none;
+}
+

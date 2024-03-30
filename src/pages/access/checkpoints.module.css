@@ -21,23 +21,22 @@
   gap: 40px;
 }
 
-.carousel {
-  display: flex;
-  gap: 21px;
-  scrollbar-width: none;
-  overflow-x: scroll;
-  scrollbar-width: 2px;
-  padding: 8px 0px;
+.main :global .MuiButtonBase-root{
+  text-transform: none;
+  padding: 8px 24px;
+  border-radius: 4px;
 }
 
-.role {
-  padding: 12px 0px;
+table {
+  width: 100%;
 }
 
-.role :global .MuiTypography-root{
-  width: 50%;
+.main :global .MuiTableCell-root{
+  border: 0;
 }
 
-.role :global .MuiFormControl-root{
-  width: 25%;
+.top {
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 16px;
 }

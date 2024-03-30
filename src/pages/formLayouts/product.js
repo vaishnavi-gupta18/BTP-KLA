@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from '../components/navbar';
-import Sidebar from '../components/sidebar';
-import Header from '../components/header';
+import NavBar from '../../components/navbar';
+import Sidebar from '../../components/sidebar';
+import Header from '../../components/header';
 
 import TextField from '@mui/material/TextField';
 import FormGroup from '@mui/material/FormGroup';
@@ -16,7 +16,7 @@ import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 import { OutlinedInput, InputAdornment, FormHelperText, FormLabel, Radio, RadioGroup, Button } from '@mui/material';
 
 import styles from './product.module.css'
-import FormCard from '../components/formCard';
+import FormCard from '../../components/formCard';
 
 
 const defects = ["Diseased", "Pest Infestation", "Pest Damaged", "Pest Rots and moulds"]

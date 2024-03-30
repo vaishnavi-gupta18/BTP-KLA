@@ -8,9 +8,24 @@ import Sidebar from './components/sidebar';
 import Login from './pages/login';
 import Reset from './pages/reset';
 import CreateUser from './pages/createUser';
-import Product from './pages/product';
+import Product from './pages/formLayouts/product';
 import Dashboard from './pages/dashboard'
-import Blanching from './pages/blanching';
+import Blanching from './pages/formLayouts/blanching';
+import ProcessingQuality from './pages/formLayouts/processingQuality';
+import ProcessParameter from './pages/formLayouts/processParameter';
+import PurchaseRegister from './pages/formLayouts/purchaseRegister';
+import IncomingRaw from './pages/formLayouts/incomingRaw';
+import FinishedProduct from './pages/formLayouts/finishedProduct';
+import DailyProduction from './pages/formLayouts/dailyProduction';
+import Users from './pages/access/users';
+import Checkpoints from './pages/access/checkpoints';
+import Profile from './pages/profile';
+import PendingRequests from './pages/requests/pendingRequests';
+import PreviousRequests from './pages/requests/previousRequests';
+import NewRequest from './pages/requests/newRequest';
+import NewForm from './pages/forms/newForm';
+import PendingForms from './pages/forms/pendingForms';
+import CompleteForms from './pages/forms/completeForms';
 
 import styles from './App.module.css'
 
@@ -47,9 +62,24 @@ function App() {
           <Route path="/reset" element={<Reset />} />
           <Route element={<Layout />} >
             <Route path="/" element={<Dashboard />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/checkpoints" element={<Checkpoints />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/pending-requests" element={<PendingRequests />} />
+            <Route path="/previous-requests" element={<PreviousRequests />} />
+            <Route path="/new-request" element={<NewRequest />} />
             <Route path="/createuser" element={<CreateUser />} />
             <Route path="/product" element={<Product />} />
             <Route path="/blanching" element={<Blanching />} />
+            <Route path="/processing-quality" element={<ProcessingQuality />} />
+            <Route path="/process-parameter" element={<ProcessParameter />} />
+            <Route path="/purchase-register" element={<PurchaseRegister />} />
+            <Route path="/incoming-raw" element={<IncomingRaw />} />
+            <Route path="/finished-product" element={<FinishedProduct />} />
+            <Route path="/daily-production" element={<DailyProduction />} />
+            <Route path="/new-form" element={<NewForm />} />
+            <Route path="/pending-forms" element={<PendingForms />} />
+            <Route path="/complete-forms" element={<CompleteForms />} />
           </Route>
         </Routes>
       </Router>

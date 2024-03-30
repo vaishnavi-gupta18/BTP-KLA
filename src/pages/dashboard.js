@@ -129,6 +129,36 @@ const approvedForms = [
     "date": "14/02/2024"
   },
 ]
+const requests = [
+  {
+    "title": "Password Change",
+    "status": "requested",
+    "requestedBy": "Shreya Bhagat",
+    "date": "14/02/2024",
+    "description": "I need to renew my worker’s password since he has been removed from the current team. I need to renew my worker’s password since he has been removed from the current team. "
+  },
+  {
+    "title": "Form Updates",
+    "status": "requested",
+    "requestedBy": "Nikita",
+    "date": "14/02/2024",
+    "description": "New fields created for the additional automation at the input weighing panel"
+  },
+  {
+    "title": "Password Change",
+    "status": "requested",
+    "requestedBy": "Shreya Bhagat",
+    "date": "14/02/2024",
+    "description": "I need to renew my worker’s password since he has been removed from the current team"
+  },
+  {
+    "title": "Form Updates",
+    "status": "requested",
+    "requestedBy": "Nikita",
+    "date": "14/02/2024",
+    "description": "New fields created for the additional automation at the input weighing panel"
+  },
+]
 const users = ["Worker1", "Manager1", "Worker2", "Worker3", "Worker4", "Manager2"]
 const roles = ["Worker", "Supervisor", "Admin"]
 
@@ -144,6 +174,19 @@ const Dashboard = () => {
       />
       <div className={styles.main}>
         <div className={styles.formgroup}>
+          <FormCard heading="Requests">
+            <div className={styles.carousel}>
+              {requests && requests.map((request, key) =>
+                <FormTile
+                  title={request.title}
+                  status={request.status}
+                  requestedBy={request.requestedBy}
+                  date={request.date}
+                  description={request.description}
+                />
+              )}
+            </div>
+          </FormCard>
           <FormCard heading="Pending Forms">
             <div className={styles.carousel}>
               {pendingForms && pendingForms.map((form, key) =>
@@ -167,26 +210,6 @@ const Dashboard = () => {
                 />
               )}
             </div>
-          </FormCard>
-          <FormCard heading="Roles and Access">
-            <FormGroup>
-              {users && users.map((user, key) => (
-                <>
-                  <Stack direction="row" className={styles.role}>
-                    <Typography>{user}</Typography>
-                    <FormControl>
-                      <Select
-                        displayEmpty
-                      >
-                        {roles && roles.map((role, key) => (
-                          <MenuItem value={role}>{role}</MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Stack>
-                </>
-              ))}
-            </FormGroup>
           </FormCard>
         </div>
       </div >

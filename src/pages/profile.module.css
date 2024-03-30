@@ -1,0 +1,135 @@
+.container {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background: var(--e9ecef-Bg-2, #E9ECEF);
+}
+
+.main :global .MuiButtonBase-root {
+  text-transform: none;
+}
+
+.main {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+}
+
+.main :global .MuiTypography-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+.main :global .MuiRadio-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+.main :global .MuiRadio-root.Mui-checked {
+  color : #1976d2
+}
+.main :global .MuiFormLabel-asterisk {
+  color: #C03221;
+  font-weight: 700;
+}
+
+.formgroup {
+  width: 90%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 40px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0px;
+  gap: 8px;
+  width: 100%;
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+
+.field :global .MuiFormLabel-root {
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
+}
+
+.label {
+  color: #232D42;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.value {
+  color: #212529;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+
+.container :global .MuiFormHelperText-root {
+  font-size: 16px;
+  color: #8A92A6;
+  text-align: center;
+}
+
+.main :global .MuiTableCell-root {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: center;
+  border: 0;
+}
+
+.main :global .MuiTableCell-head {
+  color: #232D42;
+  font-weight: 600;
+}
+
+.main :global .MuiTableCell-root:nth-child(even){
+  background: rgba(138, 146, 166, 0.10);
+}
+
+.fileHeading {
+  color: #3A57E8;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.fileSubheading {
+  color: #8A92A6;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  cursor: pointer;
+}
+
+label {
+  cursor: pointer;
+  color: #3A57E8;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.fileInput {
+  display: none;
+}
+
+.success {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.success h5 {
+  color: var(--232D42-Text-Color-1, #232D42);
+  font-weight: 400;
+}
+
+.success :global .MuiButtonBase-root {
+  text-transform: none;
+}
+

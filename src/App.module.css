@@ -10,5 +10,5 @@
 }
 
 .content {
-  width: -webkit-fill-available;
+  width: calc(100vw - 300px);
 }
