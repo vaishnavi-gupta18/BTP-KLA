@@ -27,6 +27,12 @@ const Sidebar = () => {
   const [access, setAccess] = React.useState(false);
   const [request, setRequest] = React.useState(false);
 
+  const logOut = () => {
+    localStorage.setItem("isLoggedIn", false)
+    localStorage.removeItem("token")
+    navigate("/login")
+  }
+
   return (
     <div className={styles.container}>
       <List
@@ -101,12 +107,14 @@ const Sidebar = () => {
         </ListItemButton>
         <Collapse in={request} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <AddIcon sx={{ fontSize: 20 }} />
-              </ListItemIcon>
-              <ListItemText primary="Create New" onClick={() => navigate("/new-request")} />
-            </ListItemButton>
+            {localStorage.getItem("role") != "ADMIN" && (
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemIcon>
+                  <AddIcon sx={{ fontSize: 20 }} />
+                </ListItemIcon>
+                <ListItemText primary="Create New" onClick={() => navigate("/new-request")} />
+              </ListItemButton>
+            )}
             <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/pending-requests")}>
               <ListItemIcon>
                 <CircleIcon sx={{ fontSize: 10 }} />
@@ -134,7 +142,7 @@ const Sidebar = () => {
           </ListItemIcon>
           <ListItemText primary="My Profile" />
         </ListItemButton>
-        <ListItemButton sx={{ backgroundColor: "#C03221", color: "white", marginTop: "20px" }}>
+        <ListItemButton sx={{ backgroundColor: "#C03221", color: "white", marginTop: "20px" }} onClick={logOut}>
           <ListItemIcon>
             <ExitToAppRoundedIcon sx={{ color: "white" }} />
           </ListItemIcon>

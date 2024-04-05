@@ -22,7 +22,50 @@ import ReportCard from "../../components/reportCard";
 
 const ProcessingQuality = () => {
   const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const [data, setData] = useState({
+    // title: '',
+    description: '',
+  })
+
+  const handleChange = (event) => {
+    let value = event.target.value;
+    let name = event.target.name;
+    setData((preval) => {
+      return {
+        ...preval,
+        [name]: value,
+      }
+    })
+  }
+
+  const handleSubmit = async () => {
+    const token = localStorage.getItem("token")
+    try {
+      const response = await fetch("http://localhost:8080/api/worker/raise-request", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      })
+
+      const res = await response.json();
+      if (response.status == 200) {
+        let newData = {
+          title: '',
+          description: ''
+        }
+        setData(newData)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <>
@@ -32,45 +75,34 @@ const ProcessingQuality = () => {
       />
       <div className={styles.main}>
         <div className={styles.formgroup}>
-          {!submitted ? (
-            <>
-              <FormCard heading="Request Details">
-                <div className={styles.field}>
-                  <InputLabel required>Title</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                  // onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel required>Description</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                  // onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel required>Recipient</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                  // onChange={handleChange}
-                  />
-                </div>
-              </FormCard>
-              <Stack direction="row" spacing={2}>
-                <Button variant="text">Dismiss</Button>
-                <Button variant="contained">Send</Button>
-              </Stack>
-              <br />
-            </>
-          ) : (
-            <ReportCard batch="GP247911" date="1 November 2023" time="15:36" person="Austin Robertson">
-            </ReportCard>
-          )}
-
+          <>
+            <FormCard heading="Request Details">
+              <div className={styles.field}>
+                <InputLabel required>Title</InputLabel>
+                <TextField
+                  variant="outlined"
+                  sx={{ width: "50%" }}
+                  value={data.title}
+                // name="title"
+                // onChange={handleChange}
+                />
+              </div>
+              <div className={styles.field}>
+                <InputLabel required>Description</InputLabel>
+                <TextField
+                  variant="outlined"
+                  sx={{ width: "50%" }}
+                  name="description"
+                  value={data.description}
+                  onChange={handleChange}
+                />
+              </div>
+            </FormCard>
+            <Stack direction="row" spacing={2}>
+              <Button variant="contained" onClick={handleSubmit}>Send</Button>
+            </Stack>
+            <br />
+          </>
         </div>
       </div >
     </>

@@ -13,33 +13,40 @@ import logo from '../assets/logo.svg';
 
 
 const Login = () => {
-  const [employeeId, setEmployeeId] = useState("");
+  const [employeeId, setEmployeeId] = useState(null);
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const data = {
       "employee_id": employeeId,
       "password": password
     }
-    fetch("http://localhost:8080/api/login", {
-      method: "POST",
-      // headers: {
-      //   Authorization: `Bearer ${idToken}`,
-      // },
-      body: JSON.stringify(data),
-    }).then((response) => {
-      if (!response.ok) {
-        throw response;
+    try {
+      const response = await fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+
+      const res = await response.json();
+      if (response.status == 200) {
+        if (res.success) {
+          localStorage.setItem("isLoggedIn", true)
+          localStorage.setItem("token", res.token)
+          localStorage.setItem("role", res.role)
+          navigate("/")
+        }
       }
-      navigate("/")
-      return response.json();
-    }).catch((err) => {
-      console.log(err);
-    });
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div className={styles.container}>
@@ -52,8 +59,9 @@ const Login = () => {
             <TextField
               id="employee-id"
               variant="outlined"
+              type="number"
               value={employeeId}
-              onChange={(e) => { setEmployeeId(e.target.value) }}
+              onChange={(e) => { setEmployeeId(parseInt(e.target.value)) }}
               fullWidth
             />
             <InputLabel>Password</InputLabel>
@@ -73,7 +81,7 @@ const Login = () => {
                   />}
                   label="Remember me?" />
               </div>
-              <Button variant="text">
+              <Button variant="text" onClick={() => navigate("/reset")}>
                 Forgot Password
               </Button>
             </div>

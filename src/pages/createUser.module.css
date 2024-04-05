@@ -56,6 +56,8 @@
 
 .checkpoint :global .MuiFormControlLabel-root{
   width: 50%;
+  color: #8A92A6;
+  text-transform: capitalize;
 }
 
 .checkpoint :global .MuiFormControl-root{

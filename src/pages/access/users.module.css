@@ -21,6 +21,11 @@
   gap: 40px;
 }
 
+.formgroup :global .MuiSelect-select {
+  color: #8A92A6;
+  text-transform: lowercase;
+}
+
 .carousel {
   display: flex;
   gap: 21px;

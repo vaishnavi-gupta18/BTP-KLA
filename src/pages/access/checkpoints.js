@@ -1,16 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from '../../components/navbar';
 import Header from '../../components/header';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Stack from '@mui/material/Stack';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import FormControl from '@mui/material/FormControl';
-import SearchIcon from '@mui/icons-material/Search';
-import { Select, MenuItem, Typography, Button, InputLabel } from '@mui/material';
+import { CircularProgress, Button } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,37 +13,44 @@ import TableRow from '@mui/material/TableRow';
 import styles from './checkpoints.module.css'
 import FormCard from '../../components/formCard';
 import FormTile from '../../components/formTile';
-import checkpoints from '../../assets/checkpoints.svg';
+import checkpoint_map from '../../assets/checkpoints.svg';
 
 
 const users = ["Worker1", "Manager1", "Worker2", "Worker3", "Worker4", "Manager2"]
 const roles = ["Worker", "Supervisor", "Admin"]
-const data = [
-  {
-    "checkpoint": "Checkpoint name",
-    "assigned_to": "Name of assigned",
-    "manager": "John Doe",
-  },
-  {
-    "checkpoint": "Checkpoint name",
-    "assigned_to": "Name of assigned",
-    "manager": "John Doe",
-  },
-  {
-    "checkpoint": "Checkpoint name",
-    "assigned_to": "Name of assigned",
-    "manager": "John Doe",
-  },
-  {
-    "checkpoint": "Checkpoint name",
-    "assigned_to": "Name of assigned",
-    "manager": "John Doe",
-  },
-]
 
-const Users = () => {
+const Checkpoints = () => {
   const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const [checkpoints, setCheckpoints] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCheckpoints = async (e) => {
+    const token = localStorage.getItem("token")
+    try {
+      const response = await fetch("http://localhost:8080/api/admin/checkpoint/fetch", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      })
+
+      const res = await response.json();
+      if (response.status == 200) {
+        setCheckpoints(res.data)
+        setLoading(false)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCheckpoints()
+  }, []);
 
   return (
     <>
@@ -62,19 +61,20 @@ const Users = () => {
       <div className={styles.main}>
         <div className={styles.formgroup}>
           <FormCard heading="Checkpoint Plan Viewer">
-            <img src={checkpoints} width="100%" />
+            <img src={checkpoint_map} width="100%" />
           </FormCard>
           <FormCard heading="Checkpoint Assignment">
             <TableContainer>
               <Table class>
                 <TableBody>
-                  {data.map((row, index) => (
+                  {loading && <CircularProgress />}
+                  {checkpoints && checkpoints.map((checkpoint, index) => (
                     <TableRow
                       key={index}
                     >
-                      <TableCell>{row.checkpoint}</TableCell>
-                      <TableCell>{row.assigned_to}</TableCell>
-                      <TableCell>Under the direct management of {row.manager}</TableCell>
+                      <TableCell>{checkpoint.checkpoint_name.replace(/_/g, " ")}</TableCell>
+                      <TableCell>John Doe</TableCell>
+                      <TableCell>Under the direct management of John Doe</TableCell>
                       <TableCell sx={{ textAlign: "right" }}><Button size="small" variant="contained" color="error">Remove</Button></TableCell>
                     </TableRow>
                   ))}
@@ -89,4 +89,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Checkpoints;

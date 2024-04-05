@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
-import { OutlinedInput, InputAdornment, FormHelperText, FormLabel, Radio, RadioGroup, Button, InputLabel, Select, MenuItem } from '@mui/material';
+import { OutlinedInput, InputAdornment, FormHelperText, FormLabel, Radio, RadioGroup, Button, InputLabel, Select, MenuItem, typographyClasses } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,10 +15,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-import styles from './purchaseRegister.module.css'
+import styles from './incomingRaw.module.css'
 import FormCard from '../../components/formCard';
 import ReportCard from "../../components/reportCard";
 
+const header = ["", "Sample No.", "View Report", "Time", "Blanching Result", "Action Taken", "Recorded by"]
 const data = [
   {
     "sample_no": "Green Peas",
@@ -49,12 +50,80 @@ const data = [
     "recorded_by": "John Doe"
   },
 ]
-const header = ["", "Sample No.", "View Report", "Time", "Blanching Result", "Action Taken", "Recorded by"]
-const codes = ["301", "302", "303"]
 
-const PurchaseRegister = () => {
+const IncomingRaw = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState({
+    "name": "",
+    "date_of_arrival": "",
+    "vehicle_number": "",
+    "lot_number": "",
+    "variety": "",
+    "received_from": "",
+    "supplier": "",
+    "weight_supplier": "",
+    "weight_WM": "",
+    "Rate": "",
+    "color": "",
+    "texture": "",
+    "size": "",
+    "maturity": "",
+    "aroma": "",
+    "appearance": "",
+    "weight_accepted": "",
+    "quantity_rejected": "",
+    "remarks": ""
+  })
   const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem("token")
+    try {
+      const response = await fetch("http://localhost:8080/api/worker/incoming-raw-material", {
+        method: "POST",
+        // headers: {
+        //   "Authorization": `Bearer ${token}`,
+        // },
+        body: JSON.stringify(data),
+      })
+
+      const res = await response.json();
+      if (response.status == 201) {
+        // setDetails(res);
+        // setSubmitted(true)
+        console.log(res)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleChange = (event) => {
+    let type = event.target.type
+    let value = event.target.value;
+    let name = event.target.name;
+
+    setData((preval) => {
+      if (type == "number") {
+        return {
+          ...preval,
+          [name]: parseInt(value),
+        }
+      }
+      else {
+        return {
+          ...preval,
+          [name]: value,
+        }
+      }
+    })
+    console.log(data)
+  }
 
   return (
     <>
@@ -72,7 +141,8 @@ const PurchaseRegister = () => {
                   <TextField
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="name"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -81,7 +151,8 @@ const PurchaseRegister = () => {
                     type="date"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="date_of_arrival"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -89,7 +160,8 @@ const PurchaseRegister = () => {
                   <TextField
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="vehicle_number"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -97,7 +169,8 @@ const PurchaseRegister = () => {
                   <TextField
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="variety"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -105,7 +178,8 @@ const PurchaseRegister = () => {
                   <TextField
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="received_from"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -113,7 +187,8 @@ const PurchaseRegister = () => {
                   <TextField
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="supplier"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -122,7 +197,8 @@ const PurchaseRegister = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="weight_supplier"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -131,7 +207,8 @@ const PurchaseRegister = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="weight_WM"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -148,13 +225,18 @@ const PurchaseRegister = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="Rate"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
               <FormCard heading="Color of Raw Material">
                 <Stack direction="row" spacing={3}>
-                  <TextField sx={{ width: "100px" }} />
+                  <TextField
+                    sx={{ width: "100px" }}
+                    name="color"
+                    onChange={handleChange}
+                  />
                   <FormHelperText>(Characteristic to the vegetable)</FormHelperText>
                 </Stack>
               </FormCard>
@@ -162,7 +244,8 @@ const PurchaseRegister = () => {
                 <div className={styles.field}>
                   <FormControl>
                     <RadioGroup
-                      name="blanching-result"
+                      name="texture"
+                      onChange={handleChange}
                     >
                       <FormControlLabel value="Firm" control={<Radio />} label="Firm" />
                       <FormControlLabel value="Regular" control={<Radio />} label="Regular" />
@@ -173,7 +256,11 @@ const PurchaseRegister = () => {
               </FormCard>
               <FormCard heading="Size of Raw Material">
                 <Stack direction="row" spacing={3}>
-                  <TextField sx={{ width: "100px" }} />
+                  <TextField
+                    sx={{ width: "100px" }}
+                    name="size"
+                    onChange={handleChange}
+                  />
                   <FormHelperText>(Characteristic to the vegetable)</FormHelperText>
                 </Stack>
               </FormCard>
@@ -181,7 +268,8 @@ const PurchaseRegister = () => {
                 <div className={styles.field}>
                   <FormControl>
                     <RadioGroup
-                      name="blanching-result"
+                      name="maturity"
+                      onChange={handleChange}
                     >
                       <FormControlLabel value="Immature" control={<Radio />} label="Immature" />
                       <FormControlLabel value="Mature" control={<Radio />} label="Mature" />
@@ -192,42 +280,64 @@ const PurchaseRegister = () => {
               </FormCard>
               <FormCard heading="Aroma">
                 <Stack direction="row" spacing={3}>
-                  <TextField sx={{ width: "100px" }} />
+                  <TextField
+                    sx={{ width: "100px" }}
+                    name="aroma"
+                    onChange={handleChange}
+                  />
                   <FormHelperText>(Characteristic to the vegetable)</FormHelperText>
                 </Stack>
               </FormCard>
               <FormCard heading="Appearance">
                 <Stack direction="row" spacing={3}>
-                  <TextField sx={{ width: "100px" }} />
+                  <TextField
+                    sx={{ width: "100px" }}
+                    name="appearance"
+                    onChange={handleChange}
+                  />
                   <FormHelperText>(Free from mud and other dust)</FormHelperText>
                 </Stack>
               </FormCard>
               <FormCard heading="Final Weight Accepted">
                 <Stack direction="row" spacing={3}>
-                  <TextField type="number" sx={{ width: "100px" }} />
+                  <TextField
+                    type="number"
+                    sx={{ width: "100px" }}
+                    name="weight_accepted"
+                    onChange={handleChange}
+                  />
                   <FormHelperText>(Free from mud and other dust)</FormHelperText>
                 </Stack>
               </FormCard>
-              <FormCard heading="Quality Accepted /Rejected">
+              <FormCard heading="Quantity Accepted /Rejected">
                 <Stack direction="row" spacing={3}>
-                  <TextField sx={{ width: "100px" }} />
+                  <TextField
+                    type="number"
+                    sx={{ width: "100px" }}
+                    name="quantity_rejected"
+                    onChange={handleChange}
+                  />
                   <FormHelperText>(Free from mud and other dust)</FormHelperText>
                 </Stack>
               </FormCard>
               <FormCard heading="Remarks">
                 <Stack direction="row" spacing={3}>
-                  <TextField sx={{ width: "50%" }} />
+                  <TextField
+                    sx={{ width: "50%" }}
+                    name="remarks"
+                    onChange={handleChange}
+                  />
                 </Stack>
               </FormCard>
               <Stack direction="row" spacing={2}>
                 <Button variant="text">Save as draft</Button>
-                <Button variant="contained" onClick={() => setSubmitted(true)}>Continue</Button>
+                <Button variant="contained" onClick={handleSubmit}>Continue</Button>
               </Stack>
               <br />
             </>
           ) : (
             <ReportCard batch="GP247911" date="1 November 2023" time="15:36" person="Austin Robertson">
-              <TableContainer>
+              {/* <TableContainer>
                 <Table stickyHeader>
                   <TableHead>
                     <TableRow>
@@ -252,7 +362,7 @@ const PurchaseRegister = () => {
                     ))}
                   </TableBody>
                 </Table>
-              </TableContainer>
+              </TableContainer> */}
             </ReportCard>
           )}
 
@@ -262,4 +372,4 @@ const PurchaseRegister = () => {
   );
 };
 
-export default PurchaseRegister;
+export default IncomingRaw;

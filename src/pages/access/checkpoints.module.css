@@ -33,6 +33,7 @@ table {
 
 .main :global .MuiTableCell-root{
   border: 0;
+  text-transform: capitalize;
 }
 
 .top {

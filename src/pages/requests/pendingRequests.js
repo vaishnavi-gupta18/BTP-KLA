@@ -1,16 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from '../../components/navbar';
 import Header from '../../components/header';
-import TextField from '@mui/material/TextField';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Stack from '@mui/material/Stack';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import FormControl from '@mui/material/FormControl';
-import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
-import { Select, MenuItem, Typography } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 import styles from './requests.module.css'
 import FormCard from '../../components/formCard';
@@ -50,12 +41,45 @@ const requests = [
     "description": "New fields created for the additional automation at the input weighing panel"
   },
 ]
-const users = ["Worker1", "Manager1", "Worker2", "Worker3", "Worker4", "Manager2"]
-const roles = ["Worker", "Supervisor", "Admin"]
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const [requests, setRequests] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchRequests = async (e) => {
+    const token = localStorage.getItem("token")
+    let url = ""
+    if (localStorage.getItem("role") == "ADMIN") {
+      url = "admin/employee/fetch-all-pending-requests"
+    }
+    else {
+      url = "worker/fetch-pending-requests"
+    }
+    try {
+      const response = await fetch("http://localhost:8080/api/" + url, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      })
+      setLoading(false)
+      const res = await response.json();
+      if (response.status == 200) {
+        setRequests(res.data)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchRequests()
+  }, []);
 
   return (
     <>
@@ -65,16 +89,22 @@ const Dashboard = () => {
       />
       <div className={styles.main}>
         <div className={styles.formgroup}>
-          {requests && requests.map((request, key) =>
+          {loading && <CircularProgress />}
+          {requests ? requests.map((request, key) =>
             <FormCard>
               <RequestTile
-                id={request.id}
-                title={request.title}
-                status={request.status}
-                requestedBy={request.requestedBy}
-                date={request.date}
-                description={request.description}
+                id={request.request_id}
+                title="Password Change"
+                status="requested"
+                requestedBy={request.request_from}
+                date={request.request_date}
+                description={request.request_description}
+                fetchRequests={fetchRequests}
               />
+            </FormCard>
+          ) : (
+            <FormCard>
+              No pending requests
             </FormCard>
           )}
         </div>

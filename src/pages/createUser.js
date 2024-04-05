@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from '../components/navbar';
 import Header from '../components/header';
@@ -37,40 +37,38 @@ const CreateUser = () => {
     role: ''
   })
   const [details, setDetails] = useState(null)
+  const [checkpoints, setCheckpoints] = useState([])
   const [complete, setComplete] = useState(false)
-
-  // const [fullname, setFullname] = useState('');
-  // const [doj, setDoj] = useState('');
-  // const [designation, setDesignation] = useState('');
-  // const [department, setDepartment] = useState('');
-  // const [address, setAddress] = useState('');
-  // const [phone, setPhone] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [role, setRole] = useState('');
 
   const handleChange = (event) => {
     let value = event.target.value;
     let name = event.target.name;
-    if (name == "dob") {
-      value = value + "T15:04:05Z"
+    if (name == "checkpoints") {
+
     }
-    setData((preval) => {
-      return {
-        ...preval,
-        [name]: value,
-        "role": "ADMIN"
+    else {
+      if (name == "dob") {
+        value = value + "T15:04:05Z"
       }
-    })
+      setData((preval) => {
+        return {
+          ...preval,
+          [name]: value,
+          "role": "ADMIN"
+        }
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const token = localStorage.getItem("token")
     try {
       const response = await fetch("http://localhost:8080/api/admin/employee/add", {
         method: "POST",
-        // headers: {
-        //   Authorization: `Bearer ${idToken}`,
-        // },
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
         body: JSON.stringify(data),
       })
 
@@ -86,10 +84,34 @@ const CreateUser = () => {
     } catch (error) {
       console.log(error)
     }
-
-
-
   }
+
+  const fetchCheckpoints = async (e) => {
+    const token = localStorage.getItem("token")
+    try {
+      const response = await fetch("http://localhost:8080/api/admin/checkpoint/fetch", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      })
+
+      const res = await response.json();
+      if (response.status == 200) {
+        setCheckpoints(res.data)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchCheckpoints()
+  }, []);
 
   return (
     <>
@@ -168,12 +190,11 @@ const CreateUser = () => {
                   {checkpoints && checkpoints.map((checkpoint, key) => (
                     <>
                       <Stack direction="row" className={styles.checkpoint}>
-                        <FormControlLabel control={<Checkbox />} label={checkpoint} />
+                        <FormControlLabel control={<Checkbox />} label={checkpoint.checkpoint_name.replace(/_/g, " ")} />
                         <FormControl>
                           <Select
-                            // value={role}
-                            // onChange={handleChange}
-                            displayEmpty
+                            name="checkpoints"
+                            onChange={handleChange}
                           >
                             {roles && roles.map((role, key) => (
                               <MenuItem value={role}>{role}</MenuItem>

@@ -24,90 +24,104 @@ const data = [
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "incoming-raw"
       },
       {
         "title": "Process Parameters",
         "status": "new",
         "filledBy": "Nikita",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
-        "title": "Quality Report",
+        "title": "Processing Quality Report",
         "status": "new",
         "filledBy": "Kritika",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "processing-quality"
       },
       {
-        "title": "Incoming Raw Material Inspection",
+        "title": "Purchase Register",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "purchase-register"
       },
       {
         "title": "Process Parameters",
         "status": "new",
         "filledBy": "Nikita",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Quality Report",
         "status": "new",
         "filledBy": "Kritika",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       }
     ]
   },
   {
-    "checkpoint": "Checkpoint 2",
+    "checkpoint": "Checkpoint 3",
     "forms": [
       {
-        "title": "Incoming Raw Material Inspection",
+        "title": "Finished Product Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "finished-product"
       },
       {
         "title": "Process Parameters",
         "status": "new",
         "filledBy": "Nikita",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Quality Report",
         "status": "new",
         "filledBy": "Kritika",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Process Parameters",
         "status": "new",
         "filledBy": "Nikita",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Quality Report",
         "status": "new",
         "filledBy": "Kritika",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       }
     ]
   },
@@ -118,43 +132,50 @@ const data = [
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Process Parameters",
         "status": "new",
         "filledBy": "Nikita",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Quality Report",
         "status": "new",
         "filledBy": "Kritika",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Process Parameters",
         "status": "new",
         "filledBy": "Nikita",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Quality Report",
         "status": "new",
         "filledBy": "Kritika",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       },
       {
         "title": "Incoming Raw Material Inspection",
         "status": "new",
         "filledBy": "Shreya Bhagat",
-        "description": "Data entry for product parameters after when they first come at the facility"
+        "description": "Data entry for product parameters after when they first come at the facility",
+        "url": "process-parameter"
       }
     ]
   }
@@ -182,6 +203,7 @@ const Dashboard = () => {
                       status={form.status}
                       filledBy={form.filledBy}
                       description={form.description}
+                      url={form.url}
                     />
                   )}
                 </div>

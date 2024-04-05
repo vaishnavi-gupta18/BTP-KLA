@@ -1,10 +1,12 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 
 import styles from './formTile.module.css';
 
 const FormTile = (props) => {
+  const navigate = useNavigate();
   return (
     <div className={styles.tile} style={{ minWidth: props.status == "requested" ? "300px" : "200px" }}>
       <div className={styles.top} style={{ gap: props.status == ("complete" || "new") ? "0" : "16px" }}>
@@ -49,12 +51,13 @@ const FormTile = (props) => {
       {props.status == 'new' && (
         <div className={styles.bottom}>
           <div className={styles.actions}>
-            <Button size="small" variant="contained" color="success">Create</Button>
+            <Button size="small" variant="contained" color="success" onClick={() => navigate("/" + props.url)}>Create</Button>
           </div>
         </div>
-      )}
+      )
+      }
 
-    </div>
+    </div >
   );
 };
 

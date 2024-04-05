@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { StyledEngineProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
 import NavBar from './components/navbar';
 import Sidebar from './components/sidebar';
+import PrivateRoute from './pages/privateRoute';
 import Login from './pages/login';
 import Reset from './pages/reset';
 import CreateUser from './pages/createUser';
@@ -41,17 +42,27 @@ import styles from './App.module.css'
 //   },
 // });
 
-const Layout = () => (
-  <div className={styles.container}>
-    <NavBar />
-    <div className={styles.outer}>
-      <Sidebar />
-      <div className={styles.content}>
-        <Outlet />
-      </div>
-    </div>
-  </div>
-)
+const Layout = () => {
+  const auth = localStorage.getItem("isLoggedIn")
+  return (
+    <>
+      {
+        auth ? (
+          <div className={styles.container} >
+            <NavBar />
+            <div className={styles.outer}>
+              <Sidebar />
+              <div className={styles.content}>
+                <Outlet />
+              </div>
+            </div>
+          </div >
+        ) : (
+          <Navigate to="/login" />
+        )}
+    </>
+  )
+}
 
 function App() {
   return (
