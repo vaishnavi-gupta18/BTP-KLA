@@ -16,6 +16,7 @@ import ProcessingQuality from './pages/formLayouts/processingQuality';
 import ProcessParameter from './pages/formLayouts/processParameter';
 import PurchaseRegister from './pages/formLayouts/purchaseRegister';
 import IncomingRaw from './pages/formLayouts/incomingRaw';
+import IncomingRawForm from './pages/formLayouts/incomingRawForm';
 import FinishedProduct from './pages/formLayouts/finishedProduct';
 import DailyProduction from './pages/formLayouts/dailyProduction';
 import Users from './pages/access/users';
@@ -27,6 +28,7 @@ import NewRequest from './pages/requests/newRequest';
 import NewForm from './pages/forms/newForm';
 import PendingForms from './pages/forms/pendingForms';
 import CompleteForms from './pages/forms/completeForms';
+import IncomingRawAll from './pages/formLayouts/incomingRawAll';
 
 import styles from './App.module.css'
 
@@ -85,7 +87,9 @@ function App() {
             <Route path="/processing-quality" element={<ProcessingQuality />} />
             <Route path="/process-parameter" element={<ProcessParameter />} />
             <Route path="/purchase-register" element={<PurchaseRegister />} />
-            <Route path="/incoming-raw" element={<IncomingRaw />} />
+            <Route path="/incoming-raw" element={<IncomingRawForm />} />
+            <Route path="/incoming-raw/:checkpointId/:type/:date" element={<IncomingRaw />} />
+            <Route path="/incoming-raw-all" element={<IncomingRawAll />} />
             <Route path="/finished-product" element={<FinishedProduct />} />
             <Route path="/daily-production" element={<DailyProduction />} />
             <Route path="/new-form" element={<NewForm />} />

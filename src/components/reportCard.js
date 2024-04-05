@@ -9,7 +9,7 @@ const ReportCard = (props) => {
       <Paper elevation={0}>
         <div className={styles.container}>
           <div>
-            <h2>Batch <span className={styles.blue}>#{props.batch}</span></h2>
+            <h2>Batch <span className={styles.blue}>{props.batch}</span></h2>
             <div>
               <span className={styles.field}>Submitted by: </span>
               <span className={styles.value}>{props.person}</span>

@@ -94,7 +94,7 @@ const Dashboard = () => {
             <FormCard>
               <RequestTile
                 id={request.request_id}
-                title="Password change"
+                title={request.title}
                 status={request.accepted ? "Accepted" : "Dismissed"}
                 requestedBy={request.request_from}
                 date={request.request_date}

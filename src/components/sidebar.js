@@ -26,6 +26,7 @@ const Sidebar = () => {
   const [form, setForm] = React.useState(false);
   const [access, setAccess] = React.useState(false);
   const [request, setRequest] = React.useState(false);
+  const [admin, setAdmin] = React.useState(localStorage.getItem("role") == "ADMIN")
 
   const logOut = () => {
     localStorage.setItem("isLoggedIn", false)
@@ -75,29 +76,33 @@ const Sidebar = () => {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={() => setAccess(!access)} sx={{ marginTop: "16px" }}>
-          <ListItemIcon>
-            <GroupsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Manage Access" />
-          {access ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={access} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/users")}>
+        {admin && (
+          <>
+            <ListItemButton onClick={() => setAccess(!access)} sx={{ marginTop: "16px" }}>
               <ListItemIcon>
-                <CircleIcon sx={{ fontSize: 10 }} />
+                <GroupsIcon />
               </ListItemIcon>
-              <ListItemText primary="Users" />
+              <ListItemText primary="Manage Access" />
+              {access ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/checkpoints")}>
-              <ListItemIcon>
-                <CircleIcon sx={{ fontSize: 10 }} />
-              </ListItemIcon>
-              <ListItemText primary="Checkpoints" />
-            </ListItemButton>
-          </List>
-        </Collapse>
+            <Collapse in={access} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/users")}>
+                  <ListItemIcon>
+                    <CircleIcon sx={{ fontSize: 10 }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Users" />
+                </ListItemButton>
+                <ListItemButton sx={{ pl: 4 }} onClick={() => navigate("/checkpoints")}>
+                  <ListItemIcon>
+                    <CircleIcon sx={{ fontSize: 10 }} />
+                  </ListItemIcon>
+                  <ListItemText primary="Checkpoints" />
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </>
+        )}
         <ListItemButton onClick={() => setRequest(!request)} sx={{ marginTop: "16px" }}>
           <ListItemIcon>
             <ChatOutlinedIcon />
@@ -107,7 +112,7 @@ const Sidebar = () => {
         </ListItemButton>
         <Collapse in={request} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {localStorage.getItem("role") != "ADMIN" && (
+            {!admin && (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <AddIcon sx={{ fontSize: 20 }} />

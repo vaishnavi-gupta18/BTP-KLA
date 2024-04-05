@@ -14,7 +14,6 @@
 
 .main :global .MuiTypography-root {
   color: var(--8A92A6-Text-Color-2, #8A92A6);
-  text-align: left;
 }
 .main :global .MuiRadio-root {
   color: var(--8A92A6-Text-Color-2, #8A92A6);
@@ -51,12 +50,7 @@
 }
 
 .field :global .MuiFormLabel-root {
-  color: #232D42;
-  font-weight: 500;
-}
-
-.main :global .MuiSvgIcon-root {
-  cursor: pointer;
+  color: var(--8A92A6-Text-Color-2, #8A92A6);
 }
 
 

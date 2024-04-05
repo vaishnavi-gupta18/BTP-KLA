@@ -1,25 +1,18 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from '../../components/header';
 
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 import FormControl from '@mui/material/FormControl';
-import { OutlinedInput, InputAdornment, FormHelperText, FormLabel, Radio, RadioGroup, Button, InputLabel, Select, MenuItem, typographyClasses } from '@mui/material';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { OutlinedInput, InputAdornment, FormHelperText, FormLabel, Radio, RadioGroup, Button, InputLabel, Select, MenuItem, typographyClasses, Typography } from '@mui/material';
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 
 import styles from './incomingRaw.module.css'
 import FormCard from '../../components/formCard';
 import ReportCard from "../../components/reportCard";
 
-const header = ["", "Sample No.", "View Report", "Time", "Blanching Result", "Action Taken", "Recorded by"]
 const data = [
   {
     "sample_no": "Green Peas",
@@ -50,49 +43,34 @@ const data = [
     "recorded_by": "John Doe"
   },
 ]
+const header = ["SNo.", "Raw Material Name", "View Report", "Batch Code", "Date of Arrival", "Supplier", "Rate"]
 
 const IncomingRaw = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState({
-    "name": "",
-    "date_of_arrival": "",
-    "vehicle_number": "",
-    "lot_number": "",
-    "variety": "",
-    "received_from": "",
-    "supplier": "",
-    "weight_supplier": "",
-    "weight_WM": "",
-    "Rate": "",
-    "color": "",
-    "texture": "",
-    "size": "",
-    "maturity": "",
-    "aroma": "",
-    "appearance": "",
-    "weight_accepted": "",
-    "quantity_rejected": "",
-    "remarks": ""
-  })
-  const [submitted, setSubmitted] = useState(false);
+  const [data, setData] = useState(null)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  let { checkpointId, type, date } = useParams()
+
+  const fetchRecords = async (e) => {
+    const batch_code = type + "/" + date
+    const paramData = {
+      "checkpoint_id": checkpointId,
+      "batch_code": type + "/" + date
+    }
+    console.log(paramData)
     const token = localStorage.getItem("token")
     try {
-      const response = await fetch("http://localhost:8080/api/worker/incoming-raw-material", {
-        method: "POST",
-        // headers: {
-        //   "Authorization": `Bearer ${token}`,
-        // },
-        body: JSON.stringify(data),
+      const response = await fetch("http://localhost:8080/api/supervisor/fetch-form-data/" + checkpointId + "/" + batch_code, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        },
       })
 
       const res = await response.json();
-      if (response.status == 201) {
-        // setDetails(res);
-        // setSubmitted(true)
+      if (response.status == 200) {
         console.log(res)
+        setData(res.data)
       }
       else {
         console.log("Error occured : " + response.status)
@@ -109,6 +87,9 @@ const IncomingRaw = () => {
     let name = event.target.name;
 
     setData((preval) => {
+      if (name == "date_of_arrival") {
+        value = value + "T15:04:05Z"
+      }
       if (type == "number") {
         return {
           ...preval,
@@ -125,6 +106,10 @@ const IncomingRaw = () => {
     console.log(data)
   }
 
+  useEffect(() => {
+    fetchRecords()
+  }, []);
+
   return (
     <>
       <Header
@@ -133,239 +118,86 @@ const IncomingRaw = () => {
       />
       <div className={styles.main}>
         <div className={styles.formgroup}>
-          {!submitted ? (
-            <>
-              <FormCard heading="Information Pod">
-                <div className={styles.field}>
-                  <InputLabel>Name of Raw Material</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="name"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Date of Arrival</InputLabel>
-                  <TextField
-                    type="date"
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="date_of_arrival"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Vehicle Number</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="vehicle_number"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Variety</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="variety"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>From</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="received_from"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Supplier</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="supplier"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Weight as per Supplier</InputLabel>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="weight_supplier"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Weight as per our WM</InputLabel>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="weight_WM"
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Weighment Slip number</InputLabel>
-                  <TextField
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                  // onChange={handleChange}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <InputLabel>Rate</InputLabel>
-                  <TextField
-                    type="number"
-                    variant="outlined"
-                    sx={{ width: "50%" }}
-                    name="Rate"
-                    onChange={handleChange}
-                  />
-                </div>
-              </FormCard>
-              <FormCard heading="Color of Raw Material">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    sx={{ width: "100px" }}
-                    name="color"
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>(Characteristic to the vegetable)</FormHelperText>
-                </Stack>
-              </FormCard>
-              <FormCard heading="Texture">
-                <div className={styles.field}>
-                  <FormControl>
-                    <RadioGroup
-                      name="texture"
-                      onChange={handleChange}
-                    >
-                      <FormControlLabel value="Firm" control={<Radio />} label="Firm" />
-                      <FormControlLabel value="Regular" control={<Radio />} label="Regular" />
-                      <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
-                    </RadioGroup>
-                  </FormControl>
-                </div>
-              </FormCard>
-              <FormCard heading="Size of Raw Material">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    sx={{ width: "100px" }}
-                    name="size"
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>(Characteristic to the vegetable)</FormHelperText>
-                </Stack>
-              </FormCard>
-              <FormCard heading="Maturity">
-                <div className={styles.field}>
-                  <FormControl>
-                    <RadioGroup
-                      name="maturity"
-                      onChange={handleChange}
-                    >
-                      <FormControlLabel value="Immature" control={<Radio />} label="Immature" />
-                      <FormControlLabel value="Mature" control={<Radio />} label="Mature" />
-                      <FormControlLabel value="Over Mature" control={<Radio />} label="Over Mature" />
-                    </RadioGroup>
-                  </FormControl>
-                </div>
-              </FormCard>
-              <FormCard heading="Aroma">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    sx={{ width: "100px" }}
-                    name="aroma"
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>(Characteristic to the vegetable)</FormHelperText>
-                </Stack>
-              </FormCard>
-              <FormCard heading="Appearance">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    sx={{ width: "100px" }}
-                    name="appearance"
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>(Free from mud and other dust)</FormHelperText>
-                </Stack>
-              </FormCard>
-              <FormCard heading="Final Weight Accepted">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    type="number"
-                    sx={{ width: "100px" }}
-                    name="weight_accepted"
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>(Free from mud and other dust)</FormHelperText>
-                </Stack>
-              </FormCard>
-              <FormCard heading="Quantity Accepted /Rejected">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    type="number"
-                    sx={{ width: "100px" }}
-                    name="quantity_rejected"
-                    onChange={handleChange}
-                  />
-                  <FormHelperText>(Free from mud and other dust)</FormHelperText>
-                </Stack>
-              </FormCard>
-              <FormCard heading="Remarks">
-                <Stack direction="row" spacing={3}>
-                  <TextField
-                    sx={{ width: "50%" }}
-                    name="remarks"
-                    onChange={handleChange}
-                  />
-                </Stack>
-              </FormCard>
-              <Stack direction="row" spacing={2}>
-                <Button variant="text">Save as draft</Button>
-                <Button variant="contained" onClick={handleSubmit}>Continue</Button>
-              </Stack>
-              <br />
-            </>
-          ) : (
-            <ReportCard batch="GP247911" date="1 November 2023" time="15:36" person="Austin Robertson">
-              {/* <TableContainer>
-                <Table stickyHeader>
-                  <TableHead>
-                    <TableRow>
-                      {header && header.map((head) => (
-                        <TableCell>{head}</TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody stripedRows>
-                    {data.map((row, index) => (
-                      <TableRow
-                        key={index}
-                      >
-                        <TableCell component="th" scope="row">{index}</TableCell>
-                        <TableCell className={styles.colored}>{row.sample_no}</TableCell>
-                        <TableCell><VisibilityIcon sx={{ color: "grey" }} /></TableCell>
-                        <TableCell className={styles.colored}>{row.time}</TableCell>
-                        <TableCell>{row.blanching_result}</TableCell>
-                        <TableCell className={styles.colored}>{row.action_taken}</TableCell>
-                        <TableCell>{row.recorded_by}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer> */}
-            </ReportCard>
-          )}
-
+          <ReportCard batch={data && data.batch_code} date={data && data.date_of_arrival.slice(0, 10)} time={data && data.date_of_arrival.slice(11, 16)} person="Anmol Aggarwal">
+            <div className={styles.field}>
+              <InputLabel>Name of Raw Material</InputLabel>
+              <Typography>{data && data.name}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Date of Arrival</InputLabel>
+              <Typography>{data && data.date_of_arrival.slice(0, 10)}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Vehicle Number</InputLabel>
+              <Typography>{data && data.vehicle_number}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Variety</InputLabel>
+              <Typography>{data && data.variety}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>From</InputLabel>
+              <Typography>{data && data.received_from}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Supplier</InputLabel>
+              <Typography>{data && data.supplier}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Weight as per Supplier</InputLabel>
+              <Typography>{data && data.weight_supplier}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Weight as per our WM</InputLabel>
+              <Typography>{data && data.weight_WM}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Weighment Slip number</InputLabel>
+              <Typography>W89</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Rate</InputLabel>
+              <Typography>{data && data.rate}</Typography>
+            </div>
+          </ReportCard>
+          <FormCard>
+            <div className={styles.field}>
+              <InputLabel>Color of Raw Material</InputLabel>
+              <Typography>{data && data.color}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Texture</InputLabel>
+              <Typography>{data && data.texture}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Size of Raw Material</InputLabel>
+              <Typography>{data && data.size}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Maturity</InputLabel>
+              <Typography>{data && data.maturity}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Aroma</InputLabel>
+              <Typography>{data && data.aroma}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Appearance</InputLabel>
+              <Typography>{data && data.appearance}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Final Weight Accepted</InputLabel>
+              <Typography>{data && data.weight_accepted}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Quantity Accepted /Rejected</InputLabel>
+              <Typography>{data && data.quantity_rejected}</Typography>
+            </div>
+            <div className={styles.field}>
+              <InputLabel>Remarks</InputLabel>
+              <Typography>{data && data.remarks}</Typography>
+            </div>
+          </FormCard>
         </div>
       </div >
     </>

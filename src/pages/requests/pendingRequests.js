@@ -90,11 +90,11 @@ const Dashboard = () => {
       <div className={styles.main}>
         <div className={styles.formgroup}>
           {loading && <CircularProgress />}
-          {requests ? requests.map((request, key) =>
+          {requests && requests.length > 0 ? requests.map((request, key) =>
             <FormCard>
               <RequestTile
                 id={request.request_id}
-                title="Password Change"
+                title={request.title}
                 status="requested"
                 requestedBy={request.request_from}
                 date={request.request_date}
