@@ -12,6 +12,11 @@
   justify-content: center;
 }
 
+.row {
+  width: 50%;
+  display: flex;
+}
+
 .main :global .MuiTypography-root {
   color: var(--8A92A6-Text-Color-2, #8A92A6);
 }
@@ -66,17 +71,12 @@
 .main :global .MuiTableCell-root {
   padding-top: 8px;
   padding-bottom: 8px;
-  text-align: center;
   border: 0;
 }
 
 .main :global .MuiTableCell-head {
-  color: #232D42;
-  font-weight: 600;
-}
-
-.main :global .MuiTableCell-root:nth-child(even){
-  background: rgba(138, 146, 166, 0.10);
+  font-size: 16px;
+  color: #8A92A6;
 }
 
 .success {

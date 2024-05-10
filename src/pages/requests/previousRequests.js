@@ -96,10 +96,10 @@ const Dashboard = () => {
                 id={request.request_id}
                 title={request.title}
                 status={request.accepted ? "Accepted" : "Dismissed"}
-                requestedBy={request.request_from}
+                requestedBy="Vaishnavi Gupta"
                 date={request.request_date}
                 description={request.request_description}
-                resolvedBy={request.accepted_by}
+                resolvedBy="Kritika"
                 resolvedDate={request.resolve_date}
                 adminComment={request.admin_comment}
               />

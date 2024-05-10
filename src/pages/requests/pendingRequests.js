@@ -96,7 +96,7 @@ const Dashboard = () => {
                 id={request.request_id}
                 title={request.title}
                 status="requested"
-                requestedBy={request.request_from}
+                requestedBy="Vaishnavi Gupta"
                 date={request.request_date}
                 description={request.request_description}
                 fetchRequests={fetchRequests}

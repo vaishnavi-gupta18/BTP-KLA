@@ -32,11 +32,14 @@ const Login = () => {
       })
 
       const res = await response.json();
+      console.log(res)
       if (response.status == 200) {
         if (res.success) {
           localStorage.setItem("isLoggedIn", true)
           localStorage.setItem("token", res.token)
           localStorage.setItem("role", res.role)
+          localStorage.setItem("designation", res.designation)
+          // localStorage.setItem("name", res.fullN)
           navigate("/")
         }
       }

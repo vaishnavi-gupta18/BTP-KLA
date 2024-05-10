@@ -35,7 +35,7 @@ const FormTile = (props) => {
       {props.status == 'complete' && (
         <div className={styles.bottom}>
           <div className={styles.actions}>
-            <Button size="small" variant="contained">View</Button>
+            <Button size="small" variant="contained" onClick={() => navigate("/incoming-raw-all")}>View</Button>
           </div>
         </div>
       )}

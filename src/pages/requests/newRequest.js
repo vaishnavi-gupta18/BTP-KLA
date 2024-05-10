@@ -23,8 +23,8 @@ import ReportCard from "../../components/reportCard";
 const ProcessingQuality = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    // title: '',
-    description: '',
+    title: '',
+    request_description: '',
   })
 
   const handleChange = (event) => {
@@ -53,7 +53,7 @@ const ProcessingQuality = () => {
       if (response.status == 200) {
         let newData = {
           title: '',
-          description: ''
+          request_description: ''
         }
         setData(newData)
       }
@@ -83,8 +83,8 @@ const ProcessingQuality = () => {
                   variant="outlined"
                   sx={{ width: "50%" }}
                   value={data.title}
-                // name="title"
-                // onChange={handleChange}
+                  name="title"
+                  onChange={handleChange}
                 />
               </div>
               <div className={styles.field}>
@@ -92,8 +92,8 @@ const ProcessingQuality = () => {
                 <TextField
                   variant="outlined"
                   sx={{ width: "50%" }}
-                  name="description"
-                  value={data.description}
+                  name="request_description"
+                  value={data.request_description}
                   onChange={handleChange}
                 />
               </div>

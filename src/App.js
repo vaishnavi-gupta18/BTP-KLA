@@ -29,6 +29,7 @@ import NewForm from './pages/forms/newForm';
 import PendingForms from './pages/forms/pendingForms';
 import CompleteForms from './pages/forms/completeForms';
 import IncomingRawAll from './pages/formLayouts/incomingRawAll';
+import ColdStorage from './pages/formLayouts/coldStorage';
 
 import styles from './App.module.css'
 
@@ -92,6 +93,7 @@ function App() {
             <Route path="/incoming-raw-all" element={<IncomingRawAll />} />
             <Route path="/finished-product" element={<FinishedProduct />} />
             <Route path="/daily-production" element={<DailyProduction />} />
+            <Route path="/cold-storage" element={<ColdStorage />} />
             <Route path="/new-form" element={<NewForm />} />
             <Route path="/pending-forms" element={<PendingForms />} />
             <Route path="/complete-forms" element={<CompleteForms />} />

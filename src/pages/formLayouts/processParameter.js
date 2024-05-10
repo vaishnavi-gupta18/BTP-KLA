@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from '../../components/header';
 
@@ -14,52 +14,121 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded';
 
 import styles from './processParameter.module.css'
 import FormCard from '../../components/formCard';
 import ReportCard from "../../components/reportCard";
 
-const data = [
-  {
-    "sample_no": "Green Peas",
-    "time": "18:00",
-    "blanching_result": "Positive",
-    "action_taken": "Batch Accepted",
-    "recorded_by": "John Doe"
-  },
-  {
-    "sample_no": "Green Peas",
-    "time": "18:00",
-    "blanching_result": "Positive",
-    "action_taken": "Batch Accepted",
-    "recorded_by": "John Doe"
-  },
-  {
-    "sample_no": "Green Peas",
-    "time": "18:00",
-    "blanching_result": "Positive",
-    "action_taken": "Batch Accepted",
-    "recorded_by": "John Doe"
-  },
-  {
-    "sample_no": "Green Peas",
-    "time": "18:00",
-    "blanching_result": "Positive",
-    "action_taken": "Batch Accepted",
-    "recorded_by": "John Doe"
-  },
-]
-const header = ["", "Sample No.", "View Report", "Time", "Blanching Result", "Action Taken", "Recorded by"]
-const codes = ["301", "302", "303"]
-
 const ProcessingQuality = () => {
   const navigate = useNavigate();
+  const [batches, setBatches] = useState([]);
   const [submitted, setSubmitted] = useState(false);
+  const [data, setData] = useState({
+    "batch_code": "",
+    "blancher_belt_speed": "",
+    "blancher_temperature": "",
+    "cooler_belt_speed": "",
+    "cooler_temperature": "",
+    "spray_nozzle_washer": "",
+    "spray_nozzle_blancher": "",
+    "spray_nozzle_cooler": "",
+    "spray_nozzle_precooler": "",
+    "spray_nozzle_belt_speed_1": "",
+    "spray_nozzle_belt_speed_2": "",
+    "iqf_air_temperature": "",
+    "iqf_coil_temperature": "",
+    "iqf_product_temperature": "",
+    "bag_number": "",
+    "total_bag": "",
+    "date_added": ""
+  })
+
+  const fetchBatches = async (e) => {
+    const token = localStorage.getItem("token")
+    try {
+      const response = await fetch("http://localhost:8080/api/worker/fetch-active-batches", {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      })
+
+      const res = await response.json();
+      if (response.status == 200) {
+        console.log(res)
+        setBatches(res.data)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  const handleChange = (event) => {
+    let type = event.target.type
+    let value = event.target.value;
+    let name = event.target.name;
+
+    setData((preval) => {
+      if (name == "date_added") {
+        value = value + "T15:04:05Z"
+      }
+      if (type == "number") {
+        return {
+          ...preval,
+          [name]: parseFloat(value),
+        }
+      }
+      else {
+        return {
+          ...preval,
+          [name]: value,
+        }
+      }
+    })
+    console.log(data)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const token = localStorage.getItem("token")
+    try {
+      const response = await fetch("http://localhost:8080/api/worker/checkpoint/post-iqf", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      })
+
+      const res = await response.json();
+      if (response.status == 200) {
+        // setDetails(res);
+        setSubmitted(true)
+        console.log(res)
+      }
+      else {
+        console.log("Error occured : " + response.status)
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchBatches()
+  }, []);
 
   return (
     <>
       <Header
-        heading="Process Parameters"
+        heading="Post IQF"
         subheading="Data entry for product parameters after final inspection"
       />
       <div className={styles.main}>
@@ -68,12 +137,35 @@ const ProcessingQuality = () => {
             <>
               <FormCard heading="Blancher">
                 <div className={styles.field}>
+                  <InputLabel>Batch Code</InputLabel>
+                  <Select
+                    sx={{ width: "50%" }}
+                    name="batch_code"
+                    onChange={handleChange}
+                  >
+                    {batches && batches.map((batch, key) => (
+                      <MenuItem value={batch.batch_code}>{batch.batch_code}</MenuItem>
+                    ))}
+                  </Select>
+                </div>
+                <div className={styles.field}>
+                  <InputLabel>Date of Entry</InputLabel>
+                  <TextField
+                    type="date"
+                    variant="outlined"
+                    sx={{ width: "50%" }}
+                    name="date_added"
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className={styles.field}>
                   <InputLabel>Belt Speed</InputLabel>
                   <TextField
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="blancher_belt_speed"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -82,7 +174,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="blancher_temperature"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
@@ -93,7 +186,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="cooler_belt_speed"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -102,7 +196,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="cooler_temperature"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
@@ -113,7 +208,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="spray_nozzle_washer"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -122,7 +218,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="spray_nozzle_blancher"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -131,7 +228,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="spray_nozzle_cooler"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -140,7 +238,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="spray_nozzle_precooler"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -149,7 +248,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="spray_nozzle_belt_speed_1"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -158,7 +258,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="spray_nozzle_belt_speed_2"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
@@ -169,7 +270,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="iqf_air_temperature"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -178,7 +280,8 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="iqf_coil_temperature"
+                    onChange={handleChange}
                   />
                 </div>
                 <div className={styles.field}>
@@ -187,55 +290,44 @@ const ProcessingQuality = () => {
                     type="number"
                     variant="outlined"
                     sx={{ width: "50%" }}
-                  // onChange={handleChange}
+                    name="iqf_product_temperature"
+                    onChange={handleChange}
                   />
                 </div>
               </FormCard>
               <FormCard heading="Bag number">
                 <Stack direction="row" spacing={3}>
-                  <TextField type="number" sx={{ width: "100px" }} />
+                  <TextField
+                    type="number"
+                    sx={{ width: "100px" }}
+                    name="bag_number"
+                    onChange={handleChange}
+                  />
                 </Stack>
               </FormCard>
               <FormCard heading="Total Bag">
                 <Stack direction="row" spacing={3}>
-                  <TextField type="number" sx={{ width: "100px" }} />
+                  <TextField type="number"
+                    sx={{ width: "100px" }}
+                    name="total_bag"
+                    onChange={handleChange}
+                  />
                 </Stack>
               </FormCard>
               <Stack direction="row" spacing={2}>
                 <Button variant="text">Save as draft</Button>
-                <Button variant="contained" onClick={() => setSubmitted(true)}>Continue</Button>
+                <Button variant="contained" onClick={handleSubmit}>Continue</Button>
               </Stack>
               <br />
             </>
           ) : (
-            <ReportCard batch="GP247911" date="1 November 2023" time="15:36" person="Austin Robertson">
-              <TableContainer>
-                <Table stickyHeader>
-                  <TableHead>
-                    <TableRow>
-                      {header && header.map((head) => (
-                        <TableCell>{head}</TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody stripedRows>
-                    {data.map((row, index) => (
-                      <TableRow
-                        key={index}
-                      >
-                        <TableCell component="th" scope="row">{index}</TableCell>
-                        <TableCell className={styles.colored}>{row.sample_no}</TableCell>
-                        <TableCell><VisibilityIcon sx={{ color: "grey" }} /></TableCell>
-                        <TableCell className={styles.colored}>{row.time}</TableCell>
-                        <TableCell>{row.blanching_result}</TableCell>
-                        <TableCell className={styles.colored}>{row.action_taken}</TableCell>
-                        <TableCell>{row.recorded_by}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </ReportCard>
+            <FormCard>
+              <div className={styles.success}>
+                <h1>Record added successfully</h1>
+                <TaskAltRoundedIcon sx={{ fontSize: 86, color: "#0048B2" }} />
+                <Button variant="contained" onClick={() => { setSubmitted(false); navigate("/incoming-raw-all") }}>Continue</Button>
+              </div>
+            </FormCard>
           )}
 
         </div>
